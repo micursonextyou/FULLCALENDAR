@@ -1,4 +1,4 @@
-CREATE DATABASE agenda;
+﻿CREATE DATABASE agenda;
 
 CREATE TABLE usuarios
 (
@@ -11,52 +11,34 @@ CREATE TABLE usuarios
 CREATE TABLE eventos
 (
 		id int NOT NULL AUTO_INCREMENT,
-		titulo varchar(45),
-		fecha_ini DATE NOT NULL,
-		hora_ini TIME,
-		fecha_end DATE,
-		hora_ene TIME,
-		usuario_id int,
+		titulo varchar(45) NOT NULL,
+		fecha_ini DATE ,
+		hora_ini TIME ,
+		fecha_end DATE ,
+		hora_ene TIME ,
+		complet BOOLEAN NOT NULL,
+		usuario_id int NOT NULL,
 		PRIMARY KEY(id),
 		FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
 
-INSERT INTO usuarios (email, pass) VALUES ("rodrigdsoto@gmail.com", "123"),
-("luis@gmail.com", "123"),
-("pedro@gmail.com", "123"),
-("maria@gmail.com", "123");
+INSERT INTO usuarios (id, email, pass) VALUES 
+( "13","rodrigdsoto@gmail.com", "pepe"), ("14","luis@gmail.com", "luis"),
+ ("15","pedro@gmail.com", "coco"), ("16","maria@gmail.com", "toto");
 
-INSERT INTO eventos (titulo, fecha_ini, hora_ini, fecha_end, hora_ene,usuario_id) VALUES
- ("Cumpleaños", "2019-06-01", "21:00", "2019-06-05", NULL, "1"),
-("Vautismo","2019-06-01",NULL,NULL,NULL,"1"),
-("Cena Gala","2019-06-03","7:30","2019-06-05",NULL,"1"),
-("Cena ","2019-06-17",NULL,NULL,NULL,"1"),
-("Aniversario","2019-06-22",NULL,NULL,NULL,"1"),
-("Cita","2019-06-10","8:00",NULL,NULL,"1"),
-("Entrevista","2019-06-15","7:30","9:00",NULL,"1"),
-("Recital","2019-06-16",NULL,"7:30",NULL,"1");
-("Cumpleaños", "2019-06-01", "21:00", "2019-06-05", NULL, "2"),
-("Vautismo","2019-06-01",NULL,NULL,NULL,"2"),
-("Cena Gala","2019-06-03","7:30","2019-06-05",NULL,"2"),
-("Cena ","2019-06-17",NULL,NULL,NULL,"2"),
-("Aniversario","2019-06-22",NULL,NULL,NULL,"2"),
-("Cita","2019-06-10","8:00",NULL,NULL,"2"),
-("Entrevista","2019-06-15","7:30","9:00",NULL,"2"),
-("Recital","2019-06-16",NULL,"7:30",NULL,"2");
-("Cumpleaños", "2019-06-01", "21:00", "2019-06-05", NULL, "3"),
-("Vautismo","2019-06-01",NULL,NULL,NULL,"3"),
-("Cena Gala","2019-06-03","7:30","2019-06-05",NULL,"3"),
-("Cena ","2019-06-17",NULL,NULL,NULL,"3"),
-("Aniversario","2019-06-22",NULL,NULL,NULL,"3"),
-("Cita","2019-06-10","8:00",NULL,NULL,"3"),
-("Entrevista","2019-06-15","7:30","9:00",NULL,"3"),
-("Recital","2019-06-16",NULL,"7:30",NULL,"3");
-("Cumpleaños", "2019-06-01", "21:00", "2019-06-05", NULL, "4"),
-("Vautismo","2019-06-01",NULL,NULL,NULL,"4"),
-("Cena Gala","2019-06-03","7:30","2019-06-05",NULL,"4"),
-("Cena ","2019-06-17",NULL,NULL,NULL,"4"),
-("Aniversario","2019-06-22",NULL,NULL,NULL,"4"),
-("Cita","2019-06-10","8:00",NULL,NULL,"4"),
-("Entrevista","2019-06-15","7:30","9:00",NULL,"4"),
-("Recital","2019-06-16",NULL,"7:30",NULL,"4");
+
+
+INSERT INTO eventos (titulo, fecha_ini, hora_ini, fecha_end, hora_ene,complet,usuario_id) VALUES
+ ("Cumpleanos", "2019-06-01", NULL, NULL, NULL,"1", "13"),
+ ("Vautismo","2019-06-01",NULL,NULL,NULL,"1","13"), 
+ ("Cena Gala","2019-06-03",NULL,NULL,NULL,"1","13"),
+ ("Cumpleanos", "2019-06-01", NULL, NULL, NULL,"1" ,"14"),
+ ("Vautismo","2019-06-01",NULL,NULL,NULL,"1","14"), 
+ ("Cena Gala","2019-06-03",NULL,NULL,NULL,"1","14"),
+ ("Cumpleanos", "2019-06-01", NULL, NULL, NULL,"1" ,"15"),
+ ("Vautismo","2019-06-01",NULL,NULL,NULL,"1","15"), 
+ ("Cena Gala","2019-06-03",NULL,NULL,NULL,"1","15"),
+ ("Cumpleanos", "2019-06-01", NULL, NULL, NULL,"1" ,"16"),
+ ("Vautismo","2019-06-01",NULL,NULL,NULL,"1","16"), 
+ ("Cena Gala","2019-06-03",NULL,NULL,NULL,"1","16");
