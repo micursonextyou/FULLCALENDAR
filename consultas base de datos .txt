@@ -42,3 +42,14 @@ INSERT INTO eventos (titulo, fecha_ini, hora_ini, fecha_end, hora_ene,complet,us
  ("Cumpleanos", "2019-06-01", NULL, NULL, NULL,"1" ,"16"),
  ("Vautismo","2019-06-01",NULL,NULL,NULL,"1","16"), 
  ("Cena Gala","2019-06-03",NULL,NULL,NULL,"1","16");
+ 
+
+crear usuario por consola;
+
+CREATE USER 'localhost'@'localhost' IDENTIFIED BY 'mysql';
+
+GRANT ALL PRIVILEGES ON * . * TO 'localhost'@'localhost'IDENTIFIED BY 'mysql';
+
+
+
+
