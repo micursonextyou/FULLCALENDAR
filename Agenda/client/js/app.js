@@ -158,12 +158,12 @@ function actualizar(event){
           center: 'title',
           right: 'month,agendaWeek,basicDay'
         },
-
+        defaultDate: new Date(),
+        navLinks: true,
         editable: true,
-
+        eventLimit: true,
         droppable: true,
         dragRevertDuration: 0,
-        timeFormat: 'H:mm',
         events: eventos,
         eventDrop:function(event){
                 actualizarEvento(event);
@@ -271,16 +271,18 @@ function  actualizarEvento(evento) {
       let end_date,start_hour, end_hour;
       let start = moment(evento.start_i).format('YYYY-MM-DD HH:mm:ss');
       start_date = start.substr(0,10);
-      start_hour = start.substr(11,8);
+      if(evento.allDay==false){
+            start_hour = start.substr(11,8);
 
-      if(evento.end!==null){
-        end= moment(evento.end_i).format('YYYY-MM-DD HH:mm:ss');
-        end_date = end.substr(0,10);
-        end_hour = end.substr(11,8);
-      }else{
-        end_date="";
-        end_hour="";
-      }
+            if(evento.end!==null){
+              end= moment(evento.end_i).format('YYYY-MM-DD HH:mm:ss');
+              end_date = end.substr(0,10);
+              end_hour = end.substr(11,8);
+            }else{
+              end_date="";
+              end_hour="";
+            }
+        }
       //console.log(id+" "+start_date+" "+end_date+" "+start_hour+" "+end_hour);
 
       $.ajax({
