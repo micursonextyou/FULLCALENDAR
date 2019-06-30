@@ -48,56 +48,20 @@ function initForm(){
   })
 }
 
-function preparar(json){ // cargamos eventos a calendar
-    var arrayEven=[];
-    var start,end;
-    if(json!==null){
-        for(var i=0;i<json.length;i++){
-          var all,end;
-          if(json[i]['allday']==0){
-              all=true;
-          }else{
-              all=false;
-          }
-          if(json[i]['hora_ini']!==undefined){
-            start=json[i]['fecha_ini']+"T"+json[i]['hora_ini'];
-          }else{
-
-            start=json[i]['fecha_ini'];
-          }
-          if(json[i]['fecha_end']!==undefined){
-            end=json[i]['fecha_end'];
-          }else{
-
-            end=json[i]['fecha_ini'];
-          }
-          if(json[i]['hora_ene']!==undefined){
-            end=end+"T"+json[i]['hora_ene'];
-          }
 
 
-          var evento={
-                id:json[i]['id'],
-                title:json[i]['titulo'],
-                start:start,
-                end:end,
-                allDay:all
-          };
-          arrayEven[i]=evento;
-        }
-  }
 
-     cargar(arrayEven);
-}
+
 function filtro(cadena){ //fucion para limpiar caracteres raros devueltos por la base de datos
 
         var exp0=/\\/g;
         var exp1=/[{]["][0-9]["][:]["]/;
         var exp2=/["][,]["][0-9]["][:]["]/g;
         var exp3=/[}]["][}]/;
-        var exp4=/\[?(?:"hora_ini":"00:00:00",)\]?/gi;
-        var exp5=/\[?(?:"fecha_end":"0000-00-00",)\]?/gi;
-        var exp6=/\[?(?:"hora_ene":"00:00:00",)\]?/gi;
+        var exp4=/[}][}]["][}]/g;
+        var exp5=/["][{]["][0-9]["][:]/g;
+        var exp6=/["][0-9]["][:]/g;
+        var exp7=/[}][}]["]/g;
         var lim0=cadena.replace(exp0,'');
         var lim1=lim0.replace(exp1,"");
         var lim2=lim1.replace(exp2,",\n");
@@ -105,9 +69,9 @@ function filtro(cadena){ //fucion para limpiar caracteres raros devueltos por la
         var lim4=lim3.replace(exp4,"");
         var lim5=lim4.replace(exp5,"");
         var lim6=lim5.replace(exp6,"");
-
-        var cadenaFiltrada="[ "+lim6+"]";
-        console.log(cadenaFiltrada);
+        var lim7=lim6.replace(exp7,"}");
+        var cadenaFiltrada="[ "+lim7+"]";
+        //console.log(cadenaFiltrada+"   filtrada");
         return cadenaFiltrada;
 }
 
@@ -117,22 +81,13 @@ function CargarEventos(){
       url: '../server/cargar_eventos.php',
       type: 'GET',
       success:function(respuesta){
-        //console.log(respuesta+"###########");
+        console.log(respuesta+"###########");
         if (respuesta !== null || respuesta !== ''||respuesta!==undefined){
-
             var ss=JSON.parse(respuesta);
-
-
-                var myJSON = JSON.stringify(ss.conulta);
-                var mycadena=filtro(myJSON);
-                console.log(myJSON);
-                var evenJson=JSON.parse(mycadena);
-
-                preparar(evenJson);
-
-
-
-
+            var myJSON = JSON.stringify(ss.miselaneos);
+            var mycadena=filtro(myJSON);
+            var evenJson=JSON.parse(mycadena);
+            cargar(evenJson);
           }else{
             alert("redireccionando");
             location.href='../client/index.html';
@@ -141,7 +96,6 @@ function CargarEventos(){
       },
       error: function(resp){
           alert('error de coexion conservidor');
-
       }
 
     });
@@ -302,7 +256,7 @@ function  actualizarEvento(evento) {
 
 
       let id = evento.id;
-      console.log(id);
+      //console.log(id);
 
       let end;
 

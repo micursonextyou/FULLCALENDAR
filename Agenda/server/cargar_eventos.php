@@ -20,13 +20,23 @@ $responce2['conexion']=$conexion->StarConexion('agenda');
           if($sql!==false){
             $resp=array();
             while($sql_res=$sql->fetch_array(MYSQLI_ASSOC)){
-                $respuesta[]=$sql_res;
-            }
-            $resp=array_filter($respuesta);
+                //$respuesta[]=$sql_res;
+                $evento["id"]=$sql_res['id'];
+                $evento["title"]=$sql_res['titulo'];
+                if($sql_res['complet']==0){
+                    $evento["start"]=$sql_res['fecha_ini']."T".$sql_res['hora_ini'];
+                    $evento["end"]=$sql_res['fecha_end']."T".$sql_res['hora_ene'];
+                    $evento["allDay"]=false;
+                }else{
+                  $evento["start"]=$sql_res['fecha_ini'];
+                  $evento["allDay"]=true;
+                }
+                $miselaneos[]=array_filter($evento);
 
-                //$responce2['eventos']=$sql_respuesta;
-            //$JSON=array('error'=>false,'eventos'=>$respuesta2);
-             $respuesta2['conulta']= json_encode($resp,JSON_FORCE_OBJECT);
+            }
+            $respuesta2['miselaneos']=json_encode($miselaneos,JSON_FORCE_OBJECT);
+            //$resp=array_filter($respuesta);  //$responce2['eventos']=$sql_respuesta;
+            //$JSON=array('error'=>false,'eventos'=>$respuesta2); // $respuesta2['conulta']= json_encode($resp,JSON_FORCE_OBJECT);
            }
            else{
                $respuesta2['ErrorConsulta']=array('error'=>true,'id'=>$id,"sql"=>$sql,"cons"=>$cons);
