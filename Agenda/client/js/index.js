@@ -18,9 +18,11 @@ $("form").submit(function(event){
                         if(respuesta.acceso==9){
 
                             location.href = '../client/main.html';
-                          }else{
-                            $("#but").text("Enviar");
                           }
+                  }
+                  else{
+                    $("#but").text("Enviar");
+                     alert("Los datos ingresados no son coerrectos");
                   }
             },
             error: function(){

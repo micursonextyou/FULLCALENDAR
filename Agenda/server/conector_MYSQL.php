@@ -39,44 +39,15 @@ class Conector
 
 
 
+function newInsert($sql2){
 
-
-
-function newInsert($sql2/*$tabla, $campos,$datos*/){
-
-    $sql =$sql2; /*'INSERT INTO '.$tabla.' (';
-    $i = 1;
-    foreach ($campos as $key => $values) {
-      $sql .= $values;
-      if ($i<count($campos)) {
-        $sql .= ', ';
-      }else $sql .= ')';
-      $i++;
-    }
-    $sql .= ' VALUES (';
-    $i = 1;
-    foreach ($datos as $key => $value) {
-      $sql .= $value;
-      if ($i<count($datos)) {
-        $sql .= ', ';
-      }else $sql .= ');';
-      $i++;
-    }*/
-
+    $sql =$sql2;
     return $this->ejecutarQuery($sql);
 
   }
 
-function ActualizarRegistro($tabla/*, $data, $condicion*/){
-    $sql = $tabla;/*'UPDATE '.$tabla.' SET ';
-    $i=1;
-    foreach ($data as $key => $value) {
-      $sql .= $key.'='.$value;
-      if ($i<sizeof($data)) {
-        $sql .= ', ';
-      }else $sql .= ' WHERE '.$condicion.';';
-      $i++;
-    }*/
+function ActualizarRegistro($tabla){
+    $sql = $tabla;
 
     return $this->ejecutarQuery($sql);
   }
@@ -87,60 +58,14 @@ function ActualizarRegistro($tabla/*, $data, $condicion*/){
   }
 
 
-  function consultar($tablas, $campos, $condicion = ""){
-    $sql = "SELECT ";
-    $ultima_key = end(array_keys($campos));
-    foreach ($campos as $key => $value) {
-      $sql .= $value;
-      if ($key!=$ultima_key) {
-        $sql.=", ";
-      }else $sql .=" FROM ";
-    }
-
-    $ultima_key = end(array_keys($tablas));
-    foreach ($tablas as $key => $value) {
-      $sql .= $value;
-      if ($key!=$ultima_key) {
-        $sql.=", ";
-      }else $sql .= " ";
-    }
-
-    if ($condicion == "") {
-      $sql .= ";";
-    }else {
-      $sql .= $condicion.";";
-    }
+function consultar($consulta){
+    $sql = $consulta;
 
     return $this->ejecutarQuery($sql);
   }
 
 
-  function consultaJoin($tablas, $campos, $condicion = ""){
-    $sql = "SELECT ";
-    $ultima_key = end(array_keys($campos));
-    foreach ($campos as $key => $value) {
-      $sql .= $value;
-      if ($key!=$ultima_key) {
-        $sql.=", ";
-      }else $sql .=" FROM ";
-    }
 
-    $ultima_key = end(array_keys($tablas));
-    foreach ($tablas as $key => $value) {
-      $sql .= $value;
-      if ($key!=$ultima_key) {
-        $sql.=" INNER JOIN ";
-      }else $sql .= " ";
-    }
-
-    if ($condicion == "") {
-      $sql .= ";";
-    }else {
-      $sql .= $condicion.";";
-    }
-    //print_r($sql);
-    return $this->ejecutarQuery($sql);
-  }
 
 
 

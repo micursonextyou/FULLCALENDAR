@@ -14,28 +14,30 @@ $responce2['conexion']=$conexion->StarConexion('agenda');
         }else{
     /*          realizamos consultas    */
           $id=$_SESSION['user_id'];
-          $sql=$conexion->consultaJoin(['eventos','usuarios'],['eventos.id','titulo','fecha_ini','hora_ini','fecha_end','hora_ene','allday'],'ON eventos.usuario_id=usuarios.id WHERE usuarios.id='.$id);
+          //$cons2="SELECT id, titulo, fecha_ini, if(hora_ini<>NULL,hora_ini,""), if(fecha_end<>NULL,fecha_end,""), if(hora_ene<>NULL,hora_ene,""), complet FROM eventos WHERE usuario_id='$id'";
+          $cons="SELECT * FROM eventos WHERE usuario_id='$id'";
+          $sql=$conexion->consultar($cons);
           if($sql!==false){
-            $respuesta2=array();
+            $resp=array();
             while($sql_res=$sql->fetch_array(MYSQLI_ASSOC)){
-                $respuesta[]=json_encode($sql_res);
+                $respuesta[]=$sql_res;
             }
-            $respuesta2=array_filter($respuesta);
-            
+            $resp=array_filter($respuesta);
+
                 //$responce2['eventos']=$sql_respuesta;
-            $JSON=array('error'=>false,'eventos'=>$respuesta2);
-             echo json_encode($JSON,JSON_FORCE_OBJECT);
+            //$JSON=array('error'=>false,'eventos'=>$respuesta2);
+             $respuesta2['conulta']= json_encode($resp,JSON_FORCE_OBJECT);
            }
            else{
-               echo json_encode(array('error'=>true));
+               $respuesta2['ErrorConsulta']=array('error'=>true,'id'=>$id,"sql"=>$sql,"cons"=>$cons);
            }
         }
     }else{
-          $responce['Error']="Falla en conectar al servidor";
+          $respuesta2['Error']="Falla en conectar al servidor";
 
     }
 
-
+echo json_encode($respuesta2);
 /*                  cerrar conexion                   */
     $conexion->cerrarConexion();
 /*----------------------------------------------------*/

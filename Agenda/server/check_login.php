@@ -11,7 +11,9 @@ if (isset($_POST['correo']) && $_POST['correo'] && isset($_POST['clave']) && $_P
 	if($responce['conexion']=="OK"){ /*        verificar conexion         */
 
 /*         realisamos la consulta     */
-			$sql=$conexion->consultar(["usuarios"],['*'],'WHERE email="'.$_POST['correo'].'" AND pass="'.$_POST['clave'].'"');
+$cc=$_POST['correo'];
+$cl=$_POST['clave'];
+			$sql=$conexion->consultar("SELECT * FROM usuarios WHERE email='$cc' AND pass='$cl'");
 
 /*        verificar resultados         */
 			if($sql->num_rows==1){

@@ -89,7 +89,7 @@ function preparar(json){ // cargamos eventos a calendar
 
      cargar(arrayEven);
 }
-function filtro(string){ //fucion para limpiar caracteres raros devueltos por la base de datos
+function filtro(cadena){ //fucion para limpiar caracteres raros devueltos por la base de datos
 
         var exp0=/\\/g;
         var exp1=/[{]["][0-9]["][:]["]/;
@@ -98,7 +98,7 @@ function filtro(string){ //fucion para limpiar caracteres raros devueltos por la
         var exp4=/\[?(?:"hora_ini":"00:00:00",)\]?/gi;
         var exp5=/\[?(?:"fecha_end":"0000-00-00",)\]?/gi;
         var exp6=/\[?(?:"hora_ene":"00:00:00",)\]?/gi;
-        var lim0=string.replace(exp0,'');
+        var lim0=cadena.replace(exp0,'');
         var lim1=lim0.replace(exp1,"");
         var lim2=lim1.replace(exp2,",\n");
         var lim3=lim2.replace(exp3,"}");
@@ -107,6 +107,7 @@ function filtro(string){ //fucion para limpiar caracteres raros devueltos por la
         var lim6=lim5.replace(exp6,"");
 
         var cadenaFiltrada="[ "+lim6+"]";
+        console.log(cadenaFiltrada);
         return cadenaFiltrada;
 }
 
@@ -116,20 +117,25 @@ function CargarEventos(){
       url: '../server/cargar_eventos.php',
       type: 'GET',
       success:function(respuesta){
+        //console.log(respuesta+"###########");
         if (respuesta !== null || respuesta !== ''||respuesta!==undefined){
+
             var ss=JSON.parse(respuesta);
-              if (!respuesta.error) {
-                var myJSON = JSON.stringify(ss.eventos);
+
+
+                var myJSON = JSON.stringify(ss.conulta);
                 var mycadena=filtro(myJSON);
+                console.log(myJSON);
                 var evenJson=JSON.parse(mycadena);
 
                 preparar(evenJson);
 
-              }else{
-                  alert("redireccionando");
-              //location.href='../client/index.html';
-            }
+
+
+
           }else{
+            alert("redireccionando");
+            location.href='../client/index.html';
             console.log("ajax null o vacio");
           }
       },
@@ -327,7 +333,7 @@ function  actualizarEvento(evento) {
           console.log(respuesta);
               if (respuesta.conexion=="OK") {
                   alert("El evento se actaliso correctamente");
-                  
+
               }
         },
         error: function(){
