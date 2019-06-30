@@ -54,24 +54,31 @@ function initForm(){
 
 function filtro(cadena){ //fucion para limpiar caracteres raros devueltos por la base de datos
 
-        var exp0=/\\/g;
-        var exp1=/[{]["][0-9]["][:]["]/;
-        var exp2=/["][,]["][0-9]["][:]["]/g;
-        var exp3=/[}]["][}]/;
-        var exp4=/[}][}]["][}]/g;
-        var exp5=/["][{]["][0-9]["][:]/g;
-        var exp6=/["][0-9]["][:]/g;
-        var exp7=/[}][}]["]/g;
-        var lim0=cadena.replace(exp0,'');
-        var lim1=lim0.replace(exp1,"");
-        var lim2=lim1.replace(exp2,",\n");
-        var lim3=lim2.replace(exp3,"}");
-        var lim4=lim3.replace(exp4,"");
-        var lim5=lim4.replace(exp5,"");
-        var lim6=lim5.replace(exp6,"");
-        var lim7=lim6.replace(exp7,"}");
-        var cadenaFiltrada="[ "+lim7+"]";
-        //console.log(cadenaFiltrada+"   filtrada");
+    var cadenaFiltrada;
+    if(cadena.length<7 ){
+      cadenaFiltrada=null;
+    }else{
+      var exp0=/\\/g;
+      var exp1=/[{]["][0-9]["][:]["]/;
+      var exp2=/["][,]["][0-9]["][:]["]/g;
+      var exp3=/[}]["][}]/;
+      var exp4=/[}][}]["][}]/g;
+      var exp5=/["][{]["][0-9]["][:]/g;
+      var exp6=/["][0-9]["][:]/g;
+      var exp7=/[}][}]["]/g;
+      var lim0=cadena.replace(exp0,'');
+      var lim1=lim0.replace(exp1,"");
+      var lim2=lim1.replace(exp2,",\n");
+      var lim3=lim2.replace(exp3,"}");
+      var lim4=lim3.replace(exp4,"");
+      var lim5=lim4.replace(exp5,"");
+      var lim6=lim5.replace(exp6,"");
+      var lim7=lim6.replace(exp7,"}");
+      cadenaFiltrada="[ "+lim7+"]";
+
+    }
+
+
         return cadenaFiltrada;
 }
 
@@ -81,7 +88,7 @@ function CargarEventos(){
       url: '../server/cargar_eventos.php',
       type: 'GET',
       success:function(respuesta){
-        console.log(respuesta+"###########");
+      //  console.log(respuesta+"###########");
         if (respuesta !== null || respuesta !== ''||respuesta!==undefined){
             var ss=JSON.parse(respuesta);
             var myJSON = JSON.stringify(ss.miselaneos);
@@ -167,6 +174,7 @@ function actualizar(event){
         events: eventos,
         eventDrop:function(event){
                 actualizarEvento(event);
+                $('#calendario').fullCalendar('removeEvents', event.id);
         },
 
         eventDragStart: (event,jsEvent) => {

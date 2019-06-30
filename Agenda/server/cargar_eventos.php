@@ -20,7 +20,7 @@ $responce2['conexion']=$conexion->StarConexion('agenda');
           if($sql!==false){
             $resp=array();
             while($sql_res=$sql->fetch_array(MYSQLI_ASSOC)){
-                //$respuesta[]=$sql_res;
+                //$respuesta[]=$sql_res
                 $evento["id"]=$sql_res['id'];
                 $evento["title"]=$sql_res['titulo'];
                 if($sql_res['complet']==0){
