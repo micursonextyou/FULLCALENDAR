@@ -17,7 +17,7 @@ if($responce2['conexion']=="OK"){
        $he=$_POST['horaE'];
        $id=$_SESSION['user_id'];
        $ad=$_POST['allDay'];
-       $f="INSERT INTO eventos (titulo, fecha_ini, hora_ini, fecha_end, hora_ene,usuario_id,allday) VALUES ('$t','$s','$hi','$e','$he','$id','$ad')";
+       $f="INSERT INTO eventos (titulo, fecha_ini, hora_ini, fecha_end, hora_ene,complet,usuario_id) VALUES ('$t','$s','$hi','$e','$he','$ad','$id')";
        $responce2['pos']=" ".$f;
        $sql=$conexion->newInsert($f);
        $responce2['SQL']=$sql;

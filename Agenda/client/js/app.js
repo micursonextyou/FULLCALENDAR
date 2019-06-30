@@ -165,10 +165,8 @@ function actualizar(event){
         dragRevertDuration: 0,
         timeFormat: 'H:mm',
         events: eventos,
-
         eventDrop:function(event){
                 actualizarEvento(event);
-
         },
 
         eventDragStart: (event,jsEvent) => {
@@ -221,16 +219,29 @@ function anadirEvento(){
               end:end_date+end_hour,
               allDay:all
             };
-    var ev_per = {
+
+  var ev_per;
+  if (!document.getElementById('allDay').checked) {
+     ev_per = {
               titulo: $('#titulo').val(),
               start:$('#start_date').val(),
               horaI:$('#start_hour').val(),
               end: $('#end_date').val(),
               horaE:$('#end_hour').val(),
-              allDay:al
+              allDay:0
             };
+    }else{
+      ev_per = {
+               titulo: $('#titulo').val(),
+               start:$('#start_date').val(),
+               horaI:null,
+               end: null,
+               horaE:null,
+               allDay:1
+             };
+    }
 
-
+console.log(ev_per);
     $.ajax({
       url: '../server/nuevo.php',
       dataType: "json",
@@ -249,21 +260,15 @@ function anadirEvento(){
         alert("error en la comunicación con el servidor");
       }
     });
+    limpiar();
 
   }
 
 function  actualizarEvento(evento) {
-
-
       let id = evento.id;
       //console.log(id);
-
-      let end;
-
-      let start_date;
-      let end_date;
-      let start_hour;
-      let end_hour;
+      let end, start_date;
+      let end_date,start_hour, end_hour;
       let start = moment(evento.start_i).format('YYYY-MM-DD HH:mm:ss');
       start_date = start.substr(0,10);
       start_hour = start.substr(11,8);
@@ -321,142 +326,3 @@ function  actualizarEvento(evento) {
     $('.delete-btn').find('img').attr('src', "img/trash.png");
     $('.delete-btn').css('background-color', '#8B0913')
   }
-
-
-/*class EventsManager {
-    constructor() {
-        this.obtenerDataInicial()
-    }
-
-
-    obtenerDataInicial() {
-        let url = '../server/getEvents.php'
-        $.ajax({
-          url: url,
-          dataType: "json",
-          cache: false,
-          processData: false,
-          contentType: false,
-          type: 'GET',
-          success: (data) =>{
-            if (data.msg=="OK") {
-              this.poblarCalendario(data.eventos)
-            }else {
-              alert(data.msg)
-              window.location.href = 'index.html';
-            }
-          },
-          error: function(){
-            alert("error en la comunicación con el servidor");
-          }
-        })
-
-    }
-
-    poblarCalendario(eventos) {
-        $('.calendario').fullCalendar({
-            header: {
-        		left: 'prev,next today',
-        		center: 'title',
-        		right: 'month,agendaWeek,basicDay'
-        	},
-        	defaultDate: '2016-11-01',
-        	navLinks: true,
-        	editable: true,
-        	eventLimit: true,
-          droppable: true,
-          dragRevertDuration: 0,
-          timeFormat: 'H:mm',
-          eventDrop: (event) => {
-              this.actualizarEvento(event)
-          },
-          events: eventos,
-          eventDragStart: (event,jsEvent) => {
-            $('.delete-btn').find('img').attr('src', "img/trash-open.png");
-            $('.delete-btn').css('background-color', '#a70f19')
-          },
-          eventDragStop: (event,jsEvent) =>{
-            var trashEl = $('.delete-btn');
-            var ofs = trashEl.offset();
-            var x1 = ofs.left;
-            var x2 = ofs.left + trashEl.outerWidth(true);
-            var y1 = ofs.top;
-            var y2 = ofs.top + trashEl.outerHeight(true);
-            if (jsEvent.pageX >= x1 && jsEvent.pageX<= x2 &&
-                jsEvent.pageY >= y1 && jsEvent.pageY <= y2) {
-                  this.eliminarEvento(event, jsEvent)
-                  $('.calendario').fullCalendar('removeEvents', event.id);
-            }
-
-          }
-        })
-    }
-
-
-
-    eliminarEvento(event, jsEvent){
-
-      var form_data = new FormData()
-      form_data.append('id', event.id)
-      $.ajax({
-        url: '../server/delete_event.php',
-        dataType: "json",
-        cache: false,
-        processData: false,
-        contentType: false,
-        data: form_data,
-        type: 'POST',
-        success: (data) =>{
-          if (data.msg=="OK") {
-            alert('Se ha eliminado el evento exitosamente')
-          }else {
-            alert(data.msg)
-          }
-        },
-        error: function(){
-          alert("error en la comunicación con el servidor");
-        }
-      })
-      $('.delete-btn').find('img').attr('src', "img/trash.png");
-      $('.delete-btn').css('background-color', '#8B0913')
-    }
-
-
-
-
-$(function(){
-  initForm();
-  var e = new EventsManager();
-  $('form').submit(function(event){
-    event.preventDefault()
-    e.anadirEvento()
-  })
-});
-
-
-
-function initForm(){
-  $('#start_date, #titulo, #end_date').val('');
-  $('#start_date, #end_date').datepicker({
-    dateFormat: "yy-mm-dd"
-  });
-  $('.timepicker').timepicker({
-    timeFormat: 'HH:mm',
-    interval: 30,
-    minTime: '5',
-    maxTime: '23:30',
-    defaultTime: '7',
-    startTime: '5:00',
-    dynamic: false,
-    dropdown: true,
-    scrollbar: true
-  });
-  $('#allDay').on('change', function(){
-    if (this.checked) {
-      $('.timepicker, #end_date').attr("disabled", "disabled")
-    }else {
-      $('.timepicker, #end_date').removeAttr("disabled")
-    }
-  })
-
-}*/
