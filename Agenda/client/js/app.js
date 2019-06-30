@@ -3,6 +3,8 @@
 $(function(){
 
 //$("#agregar").click(NuevoEvento);
+$('#start_date').datepicker({ minDate: 0,dateFormat: 'yy-mm-dd' });
+$('#end_date').datepicker({ minDate: 0,dateFormat: 'yy-mm-dd' });
 initForm();
 CargarEventos();
 $("form").submit(function(event){
@@ -170,11 +172,15 @@ function actualizar(event){
         editable: true,
         eventLimit: true,
         droppable: true,
+        eventStarEditable: true,
         dragRevertDuration: 0,
         events: eventos,
         eventDrop:function(event){
-                actualizarEvento(event);
-                $('#calendario').fullCalendar('removeEvents', event.id);
+                console.log(event.start);
+                  var newDate=new Date(event.start._d);
+
+                actualizarEvento(event,newDate);
+
         },
 
         eventDragStart: (event,jsEvent) => {
@@ -272,12 +278,12 @@ console.log(ev_per);
 
   }
 
-function  actualizarEvento(evento) {
+function  actualizarEvento(evento,newDate) {
       let id = evento.id;
-      //console.log(id);
+      console.log(evento);
       let end, start_date;
       let end_date,start_hour, end_hour;
-      let start = moment(evento.start_i).format('YYYY-MM-DD HH:mm:ss');
+      let start = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
       start_date = start.substr(0,10);
       if(evento.allDay==false){
             start_hour = start.substr(11,8);
@@ -301,7 +307,8 @@ function  actualizarEvento(evento) {
         success:function(respuesta){
           console.log(respuesta);
               if (respuesta.conexion=="OK") {
-                  alert("El evento se actaliso correctamente");
+                  alert("El evento se a actualizado correctamente");
+                  location.reload();
 
               }
         },
